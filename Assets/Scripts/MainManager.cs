@@ -1,15 +1,23 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class MainManager : MonoBehaviour {
+public class MainManager : MonoBehaviour
+{
 
 	// Use this for initialization
-	void Start () {
-	
+	void Start()
+	{
+		LaunchGame();
 	}
-	
+
 	// Update is called once per frame
-	void Update () {
-	
+	void Update()
+	{
+
+	}
+
+	public void LaunchGame()
+	{
+		Debug.Log("Game Start!");
 	}
 }
