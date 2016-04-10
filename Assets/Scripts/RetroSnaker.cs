@@ -15,6 +15,8 @@ public class RetroSnaker : MonoBehaviour
 	private MoveDir _moveDir;
 	private float _timeGap = 1.0f;
 	private float _timer = 0.0f;
+	private float _timeScaleRef = 0.0f;
+	private bool _isInPause = false;
 	private List<int> _indexs = new List<int>();
 	private int _startNodeCount = 5;
 	#endregion private member
@@ -35,6 +37,8 @@ public class RetroSnaker : MonoBehaviour
 	// Update is called once per frame
 	void Update()
 	{
+		if (_isInPause)
+			return;
 		_timer += Time.deltaTime;
 		if (_timer >= _timeGap)
 		{
@@ -52,9 +56,16 @@ public class RetroSnaker : MonoBehaviour
 		{
 			GUI.Box(new Rect(200, 100, 120, 80), "Congratulation!");
 			GUI.Label(new Rect(220, 120, 120, 20), "You Win!");
-
+			if (!_isInPause)
+			{
+				_timeScaleRef = Time.timeScale;
+				Time.timeScale = 0f;
+				_isInPause = true;
+			}
 			if (GUI.Button(new Rect(220, 140, 60, 20), "Reload"))
 			{
+				if (_isInPause)
+					Time.timeScale = _timeScaleRef;
 				SceneManager.LoadScene("RetroSnaker");
 			}
 		}
