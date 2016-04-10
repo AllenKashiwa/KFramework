@@ -15,6 +15,7 @@ public class RetroSnaker : MonoBehaviour
 	private float _timeGap = 1.0f;
 	private float _timer = 0.0f;
 	private List<int> _indexs = new List<int>();
+	private int _startNodeCount = 5;
 	#endregion private member
 
 	#region mono
@@ -156,10 +157,10 @@ public class RetroSnaker : MonoBehaviour
 		head.moveDir = MoveDir.UP;
 		_moveDir = head.moveDir;
 		_snake.Add(head);
-		GenerateNewNode();
-		GenerateNewNode();
-		GenerateNewNode();
-		GenerateNewNode();
+		for (int i = 1; i < _startNodeCount; i++)
+		{
+			GenerateNewNode();
+		}
 	}
 	#endregion private  implemention
 }

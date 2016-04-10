@@ -14,14 +14,11 @@ public class Apple : MonoBehaviour
 
 	void OnTriggerEnter(Collider collider)
 	{
-		Destroy(gameObject);
-	}
-
-	void OnDestroy()
-	{
+		gameObject.SetActive(false);
 		--numberOfObjects;
 		RetroSnaker snake = GameObject.FindObjectOfType<RetroSnaker>();
-		snake.OnEatApple();
+		if (snake != null && snake.isActiveAndEnabled)
+			snake.OnEatApple();
 	}
 	#endregion mono
 
