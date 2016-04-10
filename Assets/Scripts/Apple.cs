@@ -3,8 +3,9 @@ using System.Collections;
 
 public class Apple : MonoBehaviour
 {
-
 	public static int numberOfObjects = 0;
+
+	#region mono
 	// Use this for initialization
 	void Start()
 	{
@@ -22,5 +23,6 @@ public class Apple : MonoBehaviour
 		RetroSnaker snake = GameObject.FindObjectOfType<RetroSnaker>();
 		snake.OnEatApple();
 	}
+	#endregion mono
 
 }

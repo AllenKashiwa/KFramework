@@ -162,6 +162,4 @@ public class RetroSnaker : MonoBehaviour
 		GenerateNewNode();
 	}
 	#endregion private  implemention
-
-	
 }
