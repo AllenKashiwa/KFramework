@@ -69,7 +69,7 @@ public class RetroSnaker : MonoBehaviour
 	private void GenerateNewNode()
 	{
 		GameObject node = GameObject.Instantiate(_snakeNodePrefab);
-		SnakeNode nodeComp = node.GetComponent<SnakeNode>();
+		SnakeNode nodeComp = node.AddComponent<SnakeNode>();
 		SnakeNode last = _snake[_snake.Count - 1];
 		Vector3 pos = Vector3.zero;
 		switch (last.moveDir)
@@ -152,7 +152,7 @@ public class RetroSnaker : MonoBehaviour
 	private void RetroSnakerStart()
 	{
 		GameObject node = GameObject.Instantiate(_snakeHeadPrefab);
-		SnakeNode head = node.GetComponent<SnakeNode>();
+		SnakeNode head = node.AddComponent<SnakeNode>();
 		head.moveDir = MoveDir.UP;
 		_moveDir = head.moveDir;
 		_snake.Add(head);
