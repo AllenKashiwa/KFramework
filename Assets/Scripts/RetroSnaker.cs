@@ -1,9 +1,13 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 using System.Collections;
 using System.Collections.Generic;
 
 public class RetroSnaker : MonoBehaviour
 {
+	#region private member
+	private string _snakeHeadResPath = "SnakeHead";
+	private GameObject _snakeHeadPrefab = null;
 	private string _snakeNodeResPath = "SnakeNode";
 	private GameObject _snakeNodePrefab = null;
 	private List<SnakeNode> _snake = new List<SnakeNode>();
@@ -11,8 +15,12 @@ public class RetroSnaker : MonoBehaviour
 	private float _timeGap = 1.0f;
 	private float _timer = 0.0f;
 	private List<int> _indexs = new List<int>();
+	#endregion private member
+
+	#region mono
 	void Awake()
 	{
+		_snakeHeadPrefab = Resources.Load(_snakeHeadResPath) as GameObject;
 		_snakeNodePrefab = Resources.Load(_snakeNodeResPath) as GameObject;
 	}
 
@@ -32,6 +40,56 @@ public class RetroSnaker : MonoBehaviour
 			MoveSnake();
 		}
 		ChangeMoveDir();
+	}
+
+	void OnGUI()
+	{
+		GUI.Box(new Rect(10, 10, 120, 80), "Score Pad");
+		GUI.Label(new Rect(12, 25, 120, 20), string.Format("Scores is {0}.",_snake.Count * 10));
+		if (Apple.numberOfObjects == 0)
+		{
+			GUI.Label(new Rect(12, 50, 120, 20), "You Win!");
+			GUI.Box(new Rect(100, 100, 120, 80), "Menu");
+			if (GUI.Button(new Rect(120,120,40,20), "Reload"))
+			{
+				SceneManager.LoadScene("RetroSnaker");
+			}
+		}
+	}
+	#endregion mono
+
+	#region public interface
+	public void OnEatApple()
+	{
+		GenerateNewNode();
+	}
+	#endregion public interface
+
+	#region private  implemention
+	private void GenerateNewNode()
+	{
+		GameObject node = GameObject.Instantiate(_snakeNodePrefab);
+		SnakeNode nodeComp = node.GetComponent<SnakeNode>();
+		SnakeNode last = _snake[_snake.Count - 1];
+		Vector3 pos = Vector3.zero;
+		switch (last.moveDir)
+		{
+			case MoveDir.UP:
+				pos = last.transform.position + (new Vector3(0f, -SnakeNode.nodeSize, 0));
+				break;
+			case MoveDir.DOWN:
+				pos = last.transform.position + (new Vector3(0f, SnakeNode.nodeSize, 0));
+				break;
+			case MoveDir.LEFT:
+				pos = last.transform.position + (new Vector3(SnakeNode.nodeSize, 0f, 0));
+				break;
+			case MoveDir.RIGHT:
+				pos = last.transform.position + (new Vector3(-SnakeNode.nodeSize, 0f, 0));
+				break;
+		}
+		node.transform.position = pos;
+		nodeComp.moveDir = last.moveDir;
+		_snake.Add(nodeComp);
 	}
 
 	private void MoveSnake()
@@ -93,8 +151,9 @@ public class RetroSnaker : MonoBehaviour
 
 	private void RetroSnakerStart()
 	{
-		GameObject node = GameObject.Instantiate(_snakeNodePrefab);
+		GameObject node = GameObject.Instantiate(_snakeHeadPrefab);
 		SnakeNode head = node.GetComponent<SnakeNode>();
+		head.moveDir = MoveDir.UP;
 		_moveDir = head.moveDir;
 		_snake.Add(head);
 		GenerateNewNode();
@@ -102,28 +161,7 @@ public class RetroSnaker : MonoBehaviour
 		GenerateNewNode();
 		GenerateNewNode();
 	}
+	#endregion private  implemention
 
-	private void GenerateNewNode()
-	{
-		GameObject node = GameObject.Instantiate(_snakeNodePrefab);
-		SnakeNode last = _snake[_snake.Count - 1];
-		Vector3 pos = Vector3.zero;
-		switch (last.moveDir)
-		{
-			case MoveDir.UP:
-				pos = last.transform.position + (new Vector3(0f,-1f,0));
-				break;
-			case MoveDir.DOWN:
-				pos = last.transform.position + (new Vector3(0f, 1f, 0));
-				break;
-			case MoveDir.LEFT:
-				pos = last.transform.position + (new Vector3(1f, 0f, 0));
-				break;
-			case MoveDir.RIGHT:
-				pos = last.transform.position + (new Vector3(-1f, 0f, 0));
-				break;
-		}
-		node.transform.position = pos;
-		_snake.Add(node.GetComponent<SnakeNode>());
-	}
+	
 }
