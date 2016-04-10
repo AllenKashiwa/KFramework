@@ -11,7 +11,6 @@ public class RetroSnaker : MonoBehaviour
 	private float _timeGap = 1.0f;
 	private float _timer = 0.0f;
 	private List<int> _indexs = new List<int>();
-	private int _index = 0;
 	void Awake()
 	{
 		_snakeNodePrefab = Resources.Load(_snakeNodeResPath) as GameObject;
