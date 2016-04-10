@@ -1,2 +1,2 @@
-# KFramework
-A Framework for Unity3D development
+# RetroSnaker
+A retro snaker game developed by Unity3D
