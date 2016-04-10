@@ -10,6 +10,7 @@ public class RetroSnaker : MonoBehaviour
 	private GameObject _snakeHeadPrefab = null;
 	private string _snakeNodeResPath = "SnakeNode";
 	private GameObject _snakeNodePrefab = null;
+	private SnakeNode _snakeHead = null;
 	private List<SnakeNode> _snake = new List<SnakeNode>();
 	private MoveDir _moveDir;
 	private float _timeGap = 1.0f;
@@ -46,12 +47,13 @@ public class RetroSnaker : MonoBehaviour
 	void OnGUI()
 	{
 		GUI.Box(new Rect(10, 10, 120, 80), "Score Pad");
-		GUI.Label(new Rect(12, 25, 120, 20), string.Format("Scores is {0}.",_snake.Count * 10));
+		GUI.Label(new Rect(12, 25, 120, 20), string.Format("Scores is {0}.", _snake.Count * 10));
 		if (Apple.numberOfObjects == 0)
 		{
-			GUI.Label(new Rect(12, 50, 120, 20), "You Win!");
-			GUI.Box(new Rect(100, 100, 120, 80), "Menu");
-			if (GUI.Button(new Rect(120,120,40,20), "Reload"))
+			GUI.Box(new Rect(200, 100, 120, 80), "Congratulation!");
+			GUI.Label(new Rect(220, 120, 120, 20), "You Win!");
+
+			if (GUI.Button(new Rect(220, 140, 60, 20), "Reload"))
 			{
 				SceneManager.LoadScene("RetroSnaker");
 			}
@@ -153,10 +155,10 @@ public class RetroSnaker : MonoBehaviour
 	private void RetroSnakerStart()
 	{
 		GameObject node = GameObject.Instantiate(_snakeHeadPrefab);
-		SnakeNode head = node.AddComponent<SnakeNode>();
-		head.moveDir = MoveDir.UP;
-		_moveDir = head.moveDir;
-		_snake.Add(head);
+		_snakeHead = node.AddComponent<SnakeNode>();
+		_snakeHead.moveDir = MoveDir.UP;
+		_moveDir = _snakeHead.moveDir;
+		_snake.Add(_snakeHead);
 		for (int i = 1; i < _startNodeCount; i++)
 		{
 			GenerateNewNode();
